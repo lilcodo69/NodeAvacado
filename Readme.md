@@ -8,3 +8,22 @@ fs.readFile("txt/input.txt", "utf-8", (error,data)=>{do something with the data}
 
 
 Single thread : thread is where the code is executed in the machine inside the processor 
+
+
+In nodejs every file is treated as a module.
+npm is a repository and a commandline app :
+
+
+dependencies : slugyfy to make urls more readble //these are regular dependencies 
+
+development dependencies :  they are tools ex code bundlers , dev tools etc   , npm i namedepn --savedev to specify that it is a dev dep 
+  example:  "nodemon": "^3.1.9"    // automatically loads the site whenever any changes are done 
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+global installs use --global 
+
+specify local dependencies in scripts to use them
+
+require series : core modules >third party > created my self

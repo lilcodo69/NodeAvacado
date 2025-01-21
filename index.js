@@ -2,7 +2,13 @@ const fs = require("fs"); //to get function for reading data , returns an object
 const { text } = require("stream/consumers");
 const http = require("http");
 const url = require("url");
+
+const slugify=require("slugify");  //slugify is a function that converts a string into a url friendly string
 const path = require("path");
+
+
+
+const replaceTemplate =  require("../starter/module.js/replaceTemplate")  //this "." is location to the module
 
 // --------------------------------------------------------------------------------
 //Blocking , synchronous way
@@ -21,7 +27,6 @@ const path = require("path");
 
 //         fs.writeFile(`txt/final.txt`,`${data2}\n{data3}` ,`utf-8`,  (error) => {
 //                     console.log("your file has been written 🍆");
-
 //           });
 
 //     });
@@ -32,24 +37,7 @@ const path = require("path");
 
 //Server :
 
-//top level code : code that is outside the callback function , is executed once we start the program
-const replaceTemplate = (temp, product) => {
-  //product is the ojb that is passed down there as el
-  // console.log(product);
 
-  let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName); //using regular expression and g to make it global,
-  output = output.replace(/{%IMAGE%}/g, product.image);
-  output = output.replace(/{%PRICE%}/g, product.price);
-  output = output.replace(/{%FROM%}/g, product.from);
-  output = output.replace(/{%NUTRIENTS%}/g, product.nutrients);
-  output = output.replace(/{%QUANTITY%}/g, product.quantity);
-  output = output.replace(/{%DESCRIPTION%}/g, product.description);
-  output = output.replace(/{%ID%}/g, product.id);
-
-  if (!product.organic)
-    output = output.replace(/{%NOT_ORGANIC%}/g, "not-organic");
-  return output;
-};
 // --------------------------------------------------------------------
 //all file read happens here 
 const templateOverView = fs.readFileSync(
@@ -68,8 +56,10 @@ const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, "utf-8");
 
 const dataObject = JSON.parse(data); //this is an array, we loop over this array to get the data
 // ---------------------------------------------------------------------
-
+const slugs =  dataObject.map(el=> slugify(el.productName,{lower:true})); //slugify is a function that converts a string into a url friendly string
 //server creation:
+
+console.log(slugify("Fresh Avocados]", { lower: true })); //slugify is a function that converts a string into a url friendly string
 
 const server = http.createServer((req, res) => {
   const {query,pathname}=( url.parse(req.url, true)); ; //parse query into object
@@ -120,7 +110,7 @@ const server = http.createServer((req, res) => {
 });
 
 
-//whenever a request hits the server , this callback is called
+//whenever a request hits the server, this callback is called
 
 server.listen(8000, "127.0.0.1", () => {
   //callback runs whenever the server successfully starts
