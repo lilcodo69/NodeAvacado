@@ -27,3 +27,12 @@ global installs use --global
 specify local dependencies in scripts to use them
 
 require series : core modules >third party > created my self
+
+version numbers symantic number notation : ex : 2.22.42 
+first one is called major , second is minor , third is called patch version  , so if a bug is found in 2.22.41 , the bug is fixed and new version 2.22.42 is released,
+Minor verison is updated version , with added new features no breaking changes done here
+
+Major version : contains huge breaking version 
+
+to see outdated packages in package.json : npm outdated 
+symbol ^ means we accept minor releases , ~ means we accept releases
